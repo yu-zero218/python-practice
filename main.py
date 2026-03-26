@@ -1,6 +1,9 @@
-import requests
+from fastapi import FastAPI
+from routers import user
+from db import engine
+from models import Base
 
-res = requests.get("https://api.github.com")
+Base.metadata.create_all(bind=engine)
 
-print("ステータス：", res.status_code)
-print("レスポンス：", res.json())
+app = FastAPI()
+app.include_router(user.router)
